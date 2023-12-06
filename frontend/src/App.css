@@ -1,0 +1,17 @@
+@media (min-width: 600px) {
+  #root {
+    max-width: 50%;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 599px) {
+  #root {
+    max-width: 100%;
+    margin: 0;
+  }
+}
+
+.App {
+  font-family: "IBM Plex Mono", sans-serif;
+}
