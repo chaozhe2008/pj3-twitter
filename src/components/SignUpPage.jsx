@@ -10,13 +10,30 @@ import {
 } from "@mui/material";
 
 const SignUpPage = () => {
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("username"),
-      password: data.get("password"),
-    });
+    const username = data.get("username");
+    const password = data.get("password");
+
+    try {
+      const response = await fetch("users/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+      });
+
+      if (response.ok) {
+        console.log("User registered successfully");
+      } else {
+        console.error("Registration failed:", await response.text());
+      }
+    } catch (error) {
+      console.error("Error during registration:", error);
+    }
   };
 
   return (
@@ -39,7 +56,7 @@ const SignUpPage = () => {
             fullWidth
             id="Username"
             label="Username"
-            name="email"
+            name="username"
             autoFocus
           />
           <TextField

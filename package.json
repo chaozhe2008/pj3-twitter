@@ -1,31 +1,42 @@
 {
-  "name": "cs5610_spr23_mod3",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "workspaces": [
-    "backend",
-    "frontend"
-  ],
+  "name": "project3-twitter",
+  "private": true,
+  "version": "0.0.0",
+  "main": "server.js",
+  "proxy": "http://localhost:8000",
   "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "concurrently \"npm run dev -w backend\" \"npm run dev -w frontend\"",
-    "build": "npm run build -ws --if-present",
-    "prod": "npm run start -w backend"
+    "start": "npm run build && nodemon server.js",
+    "prod": "node server.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ajorgense1-chwy/cs5610_spr23_mod3.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/ajorgense1-chwy/cs5610_spr23_mod3/issues"
-  },
-  "homepage": "https://github.com/ajorgense1-chwy/cs5610_spr23_mod3#readme",
   "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@fontsource/ibm-plex-mono": "^5.0.8",
+    "@mui/icons-material": "^5.14.19",
+    "@mui/material": "^5.14.19",
+    "axios": "^1.6.2",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.0.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.20.1"
   },
   "devDependencies": {
-    "concurrently": "^8.0.1"
+    "@types/react": "^18.2.37",
+    "@types/react-dom": "^18.2.15",
+    "@vitejs/plugin-react": "^4.2.0",
+    "eslint": "^8.53.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.4",
+    "vite": "^5.0.0"
   }
 }

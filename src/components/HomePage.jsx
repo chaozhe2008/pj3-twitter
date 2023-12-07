@@ -4,7 +4,7 @@ import Feed from "./Feed";
 export default function HomePage() {
   return (
     <>
-      <NavBar />
+      {/* <NavBar /> */}
       <Feed />
     </>
   );

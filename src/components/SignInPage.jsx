@@ -14,7 +14,7 @@ const SignInPage = () => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
-      email: data.get("username"),
+      username: data.get("username"),
       password: data.get("password"),
     });
   };
@@ -39,7 +39,7 @@ const SignInPage = () => {
             fullWidth
             id="Username"
             label="Username"
-            name="email"
+            name="username"
             autoFocus
           />
           <TextField

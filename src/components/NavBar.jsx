@@ -11,15 +11,17 @@ function NavBar() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="sticky" sx={{ top: 0 }}>
         <Toolbar sx={{ justifyContent: "space-between" }}>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-            <TwitterIcon />
-          </IconButton>
+          <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              sx={{ mr: 2 }}
+            >
+              <TwitterIcon />
+            </IconButton>
+          </Link>
           <Box>
             <Link to="/signin" style={{ color: "inherit" }}>
               <Button
