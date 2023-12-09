@@ -1,12 +1,44 @@
 import { AppBar, Toolbar, Typography } from "@mui/material";
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import IconButton from "@mui/material/IconButton";
-import Button from "@mui/material/Button";
 import { Box } from "@mui/system";
+import NavBarButton from "./NavBarButton";
+import { useNavigate } from "react-router-dom";
+import { useUser, useUserUpdate } from "./UserContext";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+import logOutUser from "./public/logOutUser";
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 function NavBar() {
+  const navigate = useNavigate();
+  const currentUser = useUser();
+  const setCurrentUser = useUserUpdate();
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+
+  const handleLogout = async () => {
+    logOutUser(setCurrentUser, navigate);
+  };
+
+  const handleAddPost = async () => {
+    if (currentUser) {
+      navigate("/post/new");
+    } else {
+      setSnackbarMessage("You must be signed in to add a post");
+      setSnackbarOpen(true);
+    }
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbarOpen(false);
+  };
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="sticky" sx={{ top: 0 }}>
@@ -23,27 +55,33 @@ function NavBar() {
             </IconButton>
           </Link>
           <Box>
-            <Link to="/signin" style={{ color: "inherit" }}>
-              <Button
-                color="inherit"
-                variant="outlined"
-                sx={{ border: "2px solid white" }}
-              >
-                Sign In
-              </Button>
-            </Link>
-            <Link to="/signup" style={{ color: "inherit" }}>
-              <Button
-                color="inherit"
-                variant="outlined"
-                sx={{ ml: 1, border: "2px solid white" }}
-              >
-                Sign Up
-              </Button>
-            </Link>
+            {currentUser ? (
+              <Box sx={{ display: "flex", gap: 2 }}>
+                <NavBarButton
+                  url="/post/new"
+                  label="Add Post"
+                  onClick={handleAddPost}
+                />
+                <NavBarButton url="/" label="Log Out" onClick={handleLogout} />
+              </Box>
+            ) : (
+              <Box sx={{ display: "flex", gap: 2 }}>
+                <NavBarButton url="/signup" label="Sign Up" />
+                <NavBarButton url="/signin" label="Sign In" />
+              </Box>
+            )}
           </Box>
         </Toolbar>
       </AppBar>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={2000}
+        onClose={handleCloseSnackbar}
+      >
+        <Alert onClose={handleCloseSnackbar} severity="error">
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 }

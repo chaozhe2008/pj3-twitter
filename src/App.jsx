@@ -1,28 +1,17 @@
-import "./App.css";
-import "@fontsource/ibm-plex-mono";
-import { Route, Routes } from "react-router-dom";
-import HomePage from "./components/HomePage";
-import SignInPage from "./components/SignInPage";
-import SignUpPage from "./components/SignUpPage";
-import ProfileCard from "./components/ProfileCard";
-import EditPostPage from "./components/EditPostPage";
+import React from "react";
+import { UserProvider } from "./components/UserContext";
 import NavBar from "./components/NavBar";
+import AppRoutes from "./AppRoutes";
+import "./App.css";
 
 function App() {
   return (
-    <>
+    <UserProvider>
       <div className="App">
         <NavBar />
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/signin" element={<SignInPage />} />
-          <Route path="/signup" element={<SignUpPage />} />
-          <Route path="/profile" element={<ProfileCard />} />
-          <Route path="/post/edit/:postId" element={<EditPostPage />} />
-          <Route path="/post/new/:postId" element={<EditPostPage />} />
-        </Routes>
+        <AppRoutes />
       </div>
-    </>
+    </UserProvider>
   );
 }
 

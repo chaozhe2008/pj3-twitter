@@ -1,4 +1,6 @@
-import React from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useUser, useUserUpdate } from "./UserContext";
 import {
   Box,
   Container,
@@ -7,18 +9,30 @@ import {
   Button,
   TextField,
   Typography,
+  Alert,
 } from "@mui/material";
+import logOutUser from "./public/logOutUser";
 
 const SignUpPage = () => {
+  const navigate = useNavigate();
+  const currentUser = useUser();
+  const setCurrentUser = useUserUpdate();
+  const [errorMessage, setErrorMessage] = useState(null);
+
+  useEffect(() => {
+    if (currentUser) {
+      logOutUser(setCurrentUser, navigate);
+    }
+  }, [currentUser, setCurrentUser]);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     const data = new FormData(event.currentTarget);
     const username = data.get("username");
     const password = data.get("password");
 
     try {
-      const response = await fetch("users/signup", {
+      const response = await fetch("api/users/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -27,12 +41,16 @@ const SignUpPage = () => {
       });
 
       if (response.ok) {
-        console.log("User registered successfully");
+        setCurrentUser(username);
+        navigate("/");
       } else {
-        console.error("Registration failed:", await response.text());
+        const errorText = await response.text();
+        console.error("Registration failed:", errorText);
+        setErrorMessage(errorText);
       }
     } catch (error) {
       console.error("Error during registration:", error);
+      setErrorMessage("Error during registration");
     }
   };
 
@@ -76,10 +94,19 @@ const SignUpPage = () => {
           >
             Sign Up
           </Button>
-          <Grid>
-            <Link href="/signin" variant="body2">
-              {"Already had an account? Sign In"}
-            </Link>
+          <Grid container justifyContent="center" spacing={2}>
+            <Grid item xs={12}>
+              {errorMessage && (
+                <Alert severity="error" sx={{ mt: 2 }}>
+                  {errorMessage}
+                </Alert>
+              )}
+            </Grid>
+            <Grid item>
+              <Link href="/signin" variant="body2">
+                {"Already had an account? Sign In"}
+              </Link>
+            </Grid>
           </Grid>
         </Box>
       </Box>

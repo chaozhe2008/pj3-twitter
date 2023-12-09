@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Container,
   Box,
@@ -10,15 +10,49 @@ import {
 } from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
 
-const EditPostPage = () => {
+const EditPostPage = (onPostUpdate) => {
   const navigate = useNavigate();
   const { postId } = useParams();
+  const [originalContent, setOriginalContent] = useState("");
+  const [editedContent, setEditedContent] = useState("");
 
-  const handleSubmit = (event) => {
+  useEffect(() => {
+    const fetchOriginalContent = async () => {
+      try {
+        const response = await fetch(`/api/posts/${postId}`);
+        const postData = await response.json();
+        onPostUpdate(postData);
+        setOriginalContent(postData.content);
+        setEditedContent(postData.content);
+      } catch (error) {
+        console.error("Error fetching original content:", error);
+      }
+    };
+
+    fetchOriginalContent();
+  }, [postId, onPostUpdate]);
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    navigate("/");
-    // Add your logic for handling the submit here
-    // ...
+
+    try {
+      const response = await fetch(`/api/posts/${postId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ content: editedContent }),
+      });
+
+      if (response.ok) {
+        console.log("Post updated successfully");
+        navigate("/");
+      } else {
+        console.error("Error updating post:", await response.text());
+      }
+    } catch (error) {
+      console.error("Error during post update:", error);
+    }
   };
 
   return (
@@ -42,6 +76,10 @@ const EditPostPage = () => {
             id="postContent"
             label="Post Content"
             name="postContent"
+            multiline
+            rows={6}
+            value={editedContent}
+            onChange={(e) => setEditedContent(e.target.value)}
             autoFocus
           />
           <Button
@@ -52,11 +90,6 @@ const EditPostPage = () => {
           >
             Submit
           </Button>
-          <Grid>
-            <Link href="/" variant="body2">
-              {"Back to Home"}
-            </Link>
-          </Grid>
         </Box>
       </Box>
     </Container>

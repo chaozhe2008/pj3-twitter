@@ -1,4 +1,5 @@
 const express = require("express");
+require("dotenv").config();
 const helper = require("./server/apis/helper");
 const postsRouter = require("./server/apis/posts");
 const usersRouter = require("./server/apis/users");
@@ -8,9 +9,7 @@ const cors = require("cors");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 
-const mongoDBEndpoint =
-  "mongodb+srv://caozeyu:cs5610@czyneu.ltksekf.mongodb.net/?retryWrites=true&w=majority";
-mongoose.connect(mongoDBEndpoint, { useNewUrlParser: true });
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true });
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "Error connecting to MongoDB:"));
@@ -20,8 +19,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-app.use("/posts/", postsRouter);
-app.use("/users/", usersRouter);
+app.use("/api/posts/", postsRouter);
+app.use("/api/users/", usersRouter);
 
 let frontend_dir = path.join(__dirname, "dist");
 

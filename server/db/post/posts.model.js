@@ -16,12 +16,12 @@ function getPostById(id) {
   return PostModel.findById(id).exec();
 }
 
-// function findPostByColor(pokeColor) {
-//   return PostModel.find({ color: pokeColor }).exec();
-// }
+function updatePostContent(postId, newContent) {
+  return PostModel.findByIdAndUpdate(postId, { content: newContent }).exec();
+}
 
-function deletePost(PostId) {
-  return PostModel.deleteOne({ _id: PostId }).exec();
+function deletePost(postId) {
+  return PostModel.deleteOne({ _id: postId }).exec();
 }
 
 function findPostByUsername(username) {
@@ -32,7 +32,7 @@ module.exports = {
   createPost,
   returnAllPost,
   getPostById,
-  //   findPostByColor,
   deletePost,
+  updatePostContent,
   findPostByUsername,
 };
