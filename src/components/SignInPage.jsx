@@ -83,7 +83,7 @@ const SignInPage = () => {
         </Typography>
         {showSnackbar && (
           <div>
-            <SnackbarMessage message={alertMessage} />
+            <SnackbarMessage message={alertMessage} severity="warning" />
           </div>
         )}
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>

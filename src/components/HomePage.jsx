@@ -1,8 +1,13 @@
 import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import Feed from "./Feed";
+import SnackbarMessage from "./public/SnackbarMessage";
 
 export default function HomePage() {
   const [posts, setPosts] = useState([]);
+  const [showSnackbar, setShowSnackbar] = useState(false);
+  const location = useLocation();
+  const alertMessage = location.state?.alert;
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -19,9 +24,23 @@ export default function HomePage() {
     fetchPosts();
   }, []);
 
+  useEffect(() => {
+    if (alertMessage) {
+      setShowSnackbar(true);
+      setTimeout(() => {
+        setShowSnackbar(false);
+      }, 2000);
+    }
+  }, [alertMessage]);
+
   return (
     <>
       <Feed posts={posts} />
+      {showSnackbar && (
+        <div>
+          <SnackbarMessage message={alertMessage} severity="success" />
+        </div>
+      )}
     </>
   );
 }

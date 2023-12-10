@@ -25,7 +25,8 @@ function Post({ postId, username, content, time, onPostUpdate, onPostDelete }) {
   const currentUser = useUser();
   const isAuthor = currentUser === username;
   const [anchorEl, setAnchorEl] = useState(null);
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarContent, setSnackbarContent] = useState("");
+  const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
 
   const handlePopoverOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -37,7 +38,8 @@ function Post({ postId, username, content, time, onPostUpdate, onPostDelete }) {
 
   const handleMenuItemClick = (action) => {
     if (!isAuthor) {
-      setSnackbarOpen(true);
+      setIsSnackbarOpen(true);
+      setSnackbarContent("Not Authenticated!");
     } else {
       switch (action) {
         case "edit":
@@ -64,7 +66,8 @@ function Post({ postId, username, content, time, onPostUpdate, onPostDelete }) {
   };
 
   const handleSnackbarClose = () => {
-    setSnackbarOpen(false);
+    setIsSnackbarOpen(false);
+    setSnackbarContent("");
   };
 
   return (
@@ -84,7 +87,7 @@ function Post({ postId, username, content, time, onPostUpdate, onPostDelete }) {
             <Avatar>
               <PersonIcon />
             </Avatar>
-            <Typography variant="subtitle1" sx={{ ml: 2 }}>
+            <Typography variant="subtitle1" sx={{ ml: 1 }}>
               {username}
             </Typography>
           </Box>
@@ -112,7 +115,7 @@ function Post({ postId, username, content, time, onPostUpdate, onPostDelete }) {
         </Popover>
       </Box>
       <CardContent sx={{ textAlign: "left" }}>
-        <Typography variant="body2" color="text.secondary" sx={{ ml: 2 }}>
+        <Typography variant="subtitle1" color="black" sx={{ ml: 2 }}>
           {content}
         </Typography>
       </CardContent>
@@ -135,10 +138,10 @@ function Post({ postId, username, content, time, onPostUpdate, onPostDelete }) {
         </Typography>
       </CardActions>
       <Snackbar
-        open={snackbarOpen}
+        open={isSnackbarOpen}
         autoHideDuration={2000}
         onClose={handleSnackbarClose}
-        message="Not Authorized!"
+        message={snackbarContent}
       />
     </Card>
   );

@@ -2,7 +2,7 @@ import React from "react";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 
-export default function SnackbarMessage({ message, onClose }) {
+export default function SnackbarMessage({ message, onClose, severity }) {
   console.log(message);
   return (
     <Snackbar
@@ -11,7 +11,7 @@ export default function SnackbarMessage({ message, onClose }) {
       onClose={onClose}
       anchorOrigin={{ vertical: "top", horizontal: "right" }}
     >
-      <MuiAlert elevation={6} variant="filled" severity="error">
+      <MuiAlert elevation={6} variant="filled" severity={severity}>
         {message}
       </MuiAlert>
     </Snackbar>

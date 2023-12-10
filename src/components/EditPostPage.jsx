@@ -34,7 +34,7 @@ const EditPostPage = () => {
       });
 
       if (response.ok) {
-        navigate("/");
+        navigate("/", { state: { alert: "Edit Success!" } });
       } else {
         console.error("Error updating post:", await response.text());
       }
@@ -54,7 +54,7 @@ const EditPostPage = () => {
         }}
       >
         <Typography component="h1" variant="h5">
-          Edit Post #{postId}
+          Editting Post
         </Typography>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <TextField

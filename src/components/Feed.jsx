@@ -1,9 +1,11 @@
 import { Box } from "@mui/system";
 import React, { useState, useEffect } from "react";
 import Post from "./Post";
+import SnackbarMessage from "./public/SnackbarMessage";
 
 const Feed = ({ posts }) => {
   const [updatedPosts, setUpdatedPosts] = useState(posts);
+  const [snackbarMessage, setSnackbarMessage] = useState(null);
 
   useEffect(() => {
     setUpdatedPosts(posts);
@@ -22,12 +24,18 @@ const Feed = ({ posts }) => {
       const newPosts = [...updatedPosts];
       newPosts[index] = updatedPost;
       setUpdatedPosts(newPosts);
+      setSnackbarMessage("Post Updated!");
     }
   };
 
   const handlePostDelete = (deletedPostId) => {
     const newPosts = updatedPosts.filter((post) => post._id !== deletedPostId);
     setUpdatedPosts(newPosts);
+    setSnackbarMessage("Post Deleted!");
+  };
+
+  const handleSnackbarClose = () => {
+    setSnackbarMessage(null);
   };
 
   return (
@@ -43,6 +51,11 @@ const Feed = ({ posts }) => {
           onPostDelete={handlePostDelete}
         />
       ))}
+      <SnackbarMessage
+        message={snackbarMessage}
+        onClose={handleSnackbarClose}
+        severity="success"
+      />
     </Box>
   );
 };
