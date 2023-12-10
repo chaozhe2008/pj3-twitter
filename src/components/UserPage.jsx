@@ -33,7 +33,7 @@ const UserPage = () => {
         </Box>
       )}
       <Box sx={{ mt: 4 }}>
-        <Feed posts={userPosts} />
+        <Feed posts={userPosts} width="100%" />
       </Box>
     </Container>
   );

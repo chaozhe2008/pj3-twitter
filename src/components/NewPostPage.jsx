@@ -18,7 +18,6 @@ const NewPostPage = () => {
       });
 
       if (response.ok) {
-        // console.log("Post created successfully");
         navigate("/");
       } else {
         console.error("Failed to create post:", await response.text());

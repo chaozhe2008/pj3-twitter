@@ -70,7 +70,7 @@ function Post({ postId, username, content, time, onPostUpdate, onPostDelete }) {
   };
 
   return (
-    <Card sx={{ margin: "10px" }}>
+    <Card sx={{ my: -2 }}>
       <Box
         display="flex"
         alignItems="center"

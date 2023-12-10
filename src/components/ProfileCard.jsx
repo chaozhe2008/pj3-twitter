@@ -1,4 +1,4 @@
-import { Avatar, Card, CardHeader } from "@mui/material";
+import { Avatar, Card, CardHeader, Typography } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 
 const ProfileCard = ({ username, timeJoined }) => {
@@ -12,7 +12,11 @@ const ProfileCard = ({ username, timeJoined }) => {
             <PersonIcon></PersonIcon>
           </Avatar>
         }
-        title={username}
+        title={
+          <Typography variant="h6" fontWeight="bold">
+            {username}
+          </Typography>
+        }
         subheader={`Joined on ${joinDate}`}
       />
     </Card>

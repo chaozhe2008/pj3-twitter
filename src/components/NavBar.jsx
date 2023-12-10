@@ -40,7 +40,7 @@ function NavBar() {
   };
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1, mb: 5 }}>
       <AppBar position="sticky" sx={{ top: 0 }}>
         <Toolbar sx={{ justifyContent: "space-between" }}>
           <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>

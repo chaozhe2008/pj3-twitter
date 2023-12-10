@@ -9,21 +9,34 @@ import {
   Alert,
 } from "@mui/material";
 import { useUser, useUserUpdate } from "./UserContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import logOutUser from "./public/logOutUser";
+import SnackbarMessage from "./public/SnackbarMessage";
 
 const SignInPage = () => {
   const currentUser = useUser();
   const setCurrentUser = useUserUpdate();
   const navigate = useNavigate();
+  const location = useLocation();
   const [errorMessage, setErrorMessage] = useState(null);
+  const alertMessage = location.state?.alert;
+  const [showSnackbar, setShowSnackbar] = useState(false);
 
   useEffect(() => {
     if (currentUser) {
       logOutUser(setCurrentUser, navigate);
     }
   }, [currentUser, setCurrentUser]);
+
+  useEffect(() => {
+    if (alertMessage) {
+      setShowSnackbar(true);
+      setTimeout(() => {
+        setShowSnackbar(false);
+      }, 2000);
+    }
+  }, [alertMessage]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -68,6 +81,11 @@ const SignInPage = () => {
         <Typography component="h1" variant="h5">
           Sign In
         </Typography>
+        {showSnackbar && (
+          <div>
+            <SnackbarMessage message={alertMessage} />
+          </div>
+        )}
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <TextField
             margin="normal"

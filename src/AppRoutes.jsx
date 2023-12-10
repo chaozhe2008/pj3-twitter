@@ -20,8 +20,10 @@ const AppRoutes = () => {
         element={<PrivateRoute Component={EditPostPage} />}
       />
       <Route
-        path="/post/new"
-        element={<PrivateRoute Component={NewPostPage} />}
+        path="/post/new/"
+        element={
+          <PrivateRoute Component={NewPostPage} message="Please sign in" />
+        }
       />
       <Route path="/users/:username" element={<UserPage />} />
     </Routes>
