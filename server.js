@@ -1,6 +1,5 @@
 const express = require("express");
 require("dotenv").config();
-const helper = require("./server/apis/helper");
 const postsRouter = require("./server/apis/posts");
 const usersRouter = require("./server/apis/users");
 const app = express();
