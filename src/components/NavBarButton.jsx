@@ -3,7 +3,6 @@ import Button from "@mui/material/Button";
 
 function NavBarButton({ url, label, onClick }) {
   if (onClick) {
-    // Render a div with an onClick handler
     return (
       <div
         style={{ color: "inherit", textDecoration: "none" }}

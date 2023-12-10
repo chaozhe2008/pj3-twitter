@@ -1,28 +1,17 @@
 import React, { useState, useEffect } from "react";
-import {
-  Container,
-  Box,
-  Typography,
-  TextField,
-  Button,
-  Grid,
-  Link,
-} from "@mui/material";
+import { Container, Box, Typography, TextField, Button } from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
 
-const EditPostPage = (onPostUpdate) => {
+const EditPostPage = () => {
   const navigate = useNavigate();
   const { postId } = useParams();
-  const [originalContent, setOriginalContent] = useState("");
   const [editedContent, setEditedContent] = useState("");
 
   useEffect(() => {
     const fetchOriginalContent = async () => {
       try {
-        const response = await fetch(`/api/posts/${postId}`);
+        const response = await fetch(`/api/posts/post/${postId}`);
         const postData = await response.json();
-        onPostUpdate(postData);
-        setOriginalContent(postData.content);
         setEditedContent(postData.content);
       } catch (error) {
         console.error("Error fetching original content:", error);
@@ -30,7 +19,7 @@ const EditPostPage = (onPostUpdate) => {
     };
 
     fetchOriginalContent();
-  }, [postId, onPostUpdate]);
+  }, [postId]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -45,7 +34,6 @@ const EditPostPage = (onPostUpdate) => {
       });
 
       if (response.ok) {
-        console.log("Post updated successfully");
         navigate("/");
       } else {
         console.error("Error updating post:", await response.text());

@@ -27,7 +27,6 @@ function Post({ postId, username, content, time, onPostUpdate, onPostDelete }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
-  // Function to handle opening the Popover
   const handlePopoverOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -48,7 +47,6 @@ function Post({ postId, username, content, time, onPostUpdate, onPostDelete }) {
           fetch(`/api/posts/${postId}`, { method: "DELETE" })
             .then((response) => {
               if (response.ok) {
-                console.log("delete success");
                 onPostDelete(postId);
               } else {
                 console.error("Failed to delete post:", response.statusText);
@@ -70,7 +68,7 @@ function Post({ postId, username, content, time, onPostUpdate, onPostDelete }) {
   };
 
   return (
-    <Card sx={{ my: -2 }}>
+    <Card sx={{ my: 2 }}>
       <Box
         display="flex"
         alignItems="center"

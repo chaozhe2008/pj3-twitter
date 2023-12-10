@@ -2,8 +2,11 @@ const express = require("express");
 const router = express.Router();
 const PostModel = require("../db/post/posts.model");
 const jwt = require("jsonwebtoken");
+const path = require("path");
+const dotenv = require("dotenv");
+const envPath = path.resolve(__dirname, "../../.env");
+dotenv.config({ path: envPath });
 
-// Get all posts
 router.get("/", async function (request, response) {
   try {
     const posts = await PostModel.returnAllPost();
@@ -13,46 +16,25 @@ router.get("/", async function (request, response) {
   }
 });
 
-// POST localhost:8000/api/Post/
 router.post("/", async function (request, response) {
   const newPost = request.body;
   const username = request.cookies.username;
-
+  const secretKey = process.env.JWT_SECRET || "defaultSecret";
   let decryptedUsername;
   try {
-    decryptedUsername = jwt.verify(username, "PASSWORD");
+    const decodedToken = jwt.verify(username, secretKey);
+    decryptedUsername = decodedToken.username;
   } catch (e) {
     return response.status(404).send("Invalid request");
   }
   newPost.username = decryptedUsername;
   try {
     const createPostResponse = await PostModel.createPost(newPost);
-    console.log(createPostResponse);
     return response.send("Post Successfully Created: " + createPostResponse);
   } catch (error) {
     return response.status(500).send(error);
   }
 });
-
-// router.get("/", function (request, response) {
-//   const username = request.cookies.username;
-
-//   let decryptedUsername;
-//   try {
-//     decryptedUsername = jwt.verify(username, "PASSWORD");
-//   } catch (e) {
-//     return response.status(404).send("Invalid request");
-//   }
-
-//   PostModel.findPostByUsername(decryptedUsername)
-//     .then(function (dbResponse) {
-//       response.cookie("PostCount", dbResponse.length + 1);
-//       response.send(dbResponse);
-//     })
-//     .catch(function (error) {
-//       response.status(500).send(error);
-//     });
-// });
 
 router.get("/:username", async function (request, response) {
   const { username } = request.params;
@@ -64,7 +46,7 @@ router.get("/:username", async function (request, response) {
   }
 });
 
-router.get("/:id", async function (request, response) {
+router.get("/post/:id", async function (request, response) {
   const postId = request.params.id;
   try {
     const post = await PostModel.getPostById(postId);

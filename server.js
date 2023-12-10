@@ -26,7 +26,6 @@ let frontend_dir = path.join(__dirname, "dist");
 
 app.use(express.static(frontend_dir));
 app.get("*", function (req, res) {
-  console.log("received request");
   res.sendFile(path.join(frontend_dir, "index.html"));
 });
 

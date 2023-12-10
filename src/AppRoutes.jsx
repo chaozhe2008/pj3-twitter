@@ -1,10 +1,8 @@
-import React from "react";
 import { Routes, Route } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute";
 import HomePage from "./components/HomePage";
 import SignInPage from "./components/SignInPage";
 import SignUpPage from "./components/SignUpPage";
-import ProfileCard from "./components/ProfileCard";
 import EditPostPage from "./components/EditPostPage";
 import NewPostPage from "./components/NewPostPage";
 import UserPage from "./components/UserPage";

@@ -3,6 +3,7 @@ const logOutUser = async (setCurrentUser, navigate) => {
     const response = await fetch("/api/users/logOut", { method: "POST" });
     const data = await response.json();
     if (data) {
+      document.cookie = "";
       setCurrentUser(null);
       navigate("/");
     }

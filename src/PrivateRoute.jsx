@@ -2,13 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import { useUser, useUserUpdate } from "./components/UserContext";
 
-// const PrivateRoute = (Component) => {
-//   const currentUser = useUser();
-//   const isAuthenticated = !!currentUser;
-
-//   return isAuthenticated ? <Component /> : <Navigate to="/signin" />;
-// };
-
 const PrivateRoute = ({ Component, message }) => {
   const currentUser = useUser();
   const isAuthenticated = !!currentUser;
